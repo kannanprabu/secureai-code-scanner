@@ -465,13 +465,9 @@ Built with:
 
 ---
 
-**Secure your code with AI-powered analysis! 🔒✨**
+## Contributors
 
-**Quick Start:**
-```bash
-pip install semgrep anthropic
-# Create config.py with your API key
-run_scan.bat --github https://github.com/OWASP/NodeGoat
+Thanks to all the security professionals who contributed:
+* Kannan Prabu Ramamoorthy
 ```
 
-**That's it! Check the generated report.** 🎉
