@@ -1,4 +1,4 @@
-# 🔒 AgenticAI Code Review Tool - Ultimate Edition
+# 🔒 SecureAI/LLM Code Review Tool - Ultimate Edition
 
 AI-powered security scanner that finds vulnerabilities and tells you if they're real or false positives.
 
