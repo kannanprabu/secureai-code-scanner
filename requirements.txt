@@ -1,0 +1,6 @@
+semgrep==1.50.0
+requests==2.31.0
+GitPython==3.1.40
+azure-functions==1.18.0
+azure-storage-blob==12.19.0
+pyyaml==6.0.1

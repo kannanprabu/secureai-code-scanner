@@ -1,0 +1,39 @@
+# Sensitive files
+config.py
+*.key
+*.pem
+*.env
+
+# Scan results
+scan_results/
+security_scan_*.json
+security_scan_*.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary
+*.tmp
+*.log
+*.bak
+
+# Cache
+.semgrep/
+.cache/
