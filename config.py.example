@@ -1,0 +1,252 @@
+"""
+Configuration file for Code Review Agent
+Replace the values below with your actual credentials and settings
+"""
+
+# ============================================================
+# LLM PROVIDER SELECTION
+# ============================================================
+# Options: "azure", "anthropic", "openai", "ollama"
+LLM_PROVIDER = "azure"
+
+
+# ============================================================
+# AZURE OPENAI CONFIGURATION
+# ============================================================
+AZURE_OPENAI_API_KEY = ""  # Your Azure OpenAI API key
+AZURE_OPENAI_ENDPOINT = ""  # e.g., "https://your-resource.openai.azure.com/"
+AZURE_OPENAI_DEPLOYMENT = ""  # Your deployment name
+AZURE_OPENAI_API_VERSION = ""
+
+
+# ============================================================
+# ANTHROPIC CLAUDE CONFIGURATION
+# ============================================================
+ANTHROPIC_API_KEY = ""  # Your Anthropic API key
+ANTHROPIC_MODEL = "claude-sonnet-4-20250514"  # Claude model to use
+
+
+# ============================================================
+# OPENAI CONFIGURATION
+# ============================================================
+OPENAI_API_KEY = ""  # Your OpenAI API key
+OPENAI_MODEL = "gpt-4"  # Model to use
+
+
+# ============================================================
+# OLLAMA CONFIGURATION (Local)
+# ============================================================
+OLLAMA_BASE_URL = "http://localhost:11434"  # Ollama server URL
+OLLAMA_MODEL = "llama2"  # Local model name
+
+
+# ============================================================
+# SEMGREP CONFIGURATION
+# ============================================================
+# Severity levels: "CRITICAL", "HIGH", "MEDIUM", "LOW"
+# Based on OWASP Top 10, CWE classifications, and security best practices
+
+SEVERITY_LEVELS = {
+    # ========================================
+    # CRITICAL - Remote Code Execution (RCE) & Complete System Compromise
+    # ========================================
+    "command-injection": "CRITICAL",          # CWE-78: OS Command Injection
+    "code-injection": "CRITICAL",             # CWE-94: Code Injection
+    "sql-injection": "CRITICAL",              # CWE-89: SQL Injection
+    "deserialization": "CRITICAL",            # CWE-502: Insecure Deserialization
+    "insecure-deserialization": "CRITICAL",   # CWE-502: Remote Code Execution
+    "xxe": "CRITICAL",                        # CWE-611: XML External Entity
+    "ssti": "CRITICAL",                       # Server-Side Template Injection
+    "ldap-injection": "CRITICAL",             # CWE-90: LDAP Injection
+    "xpath-injection": "CRITICAL",            # CWE-643: XPath Injection
+    "unsafe-yaml": "CRITICAL",                # Unsafe YAML deserialization
+    "unsafe-pickle": "CRITICAL",              # Python pickle deserialization
+    "eval-usage": "CRITICAL",                 # CWE-95: Dangerous eval() usage
+    "exec-usage": "CRITICAL",                 # Dangerous exec() usage
+    "unrestricted-file-upload": "CRITICAL",   # CWE-434: File upload RCE
+    
+    # ========================================
+    # HIGH - Data Breach & Privilege Escalation
+    # ========================================
+    "xss": "HIGH",                            # CWE-79: Cross-Site Scripting
+    "path-traversal": "HIGH",                 # CWE-22: Path Traversal
+    "directory-traversal": "HIGH",            # Directory traversal attacks
+    "ssrf": "HIGH",                           # CWE-918: Server-Side Request Forgery
+    "hardcoded-password": "HIGH",             # CWE-798: Hardcoded Credentials
+    "hardcoded-secret": "HIGH",               # Hardcoded API keys/tokens
+    "hardcoded-key": "HIGH",                  # Hardcoded cryptographic keys
+    "authentication-bypass": "HIGH",          # CWE-287: Authentication bypass
+    "authorization-bypass": "HIGH",           # CWE-285: Authorization bypass
+    "broken-access-control": "HIGH",          # OWASP A01:2021
+    "jwt-none-algorithm": "HIGH",             # JWT algorithm confusion
+    "weak-jwt": "HIGH",                       # Weak JWT implementation
+    "session-fixation": "HIGH",               # CWE-384: Session Fixation
+    "clickjacking": "HIGH",                   # CWE-1021: Clickjacking
+    "csrf": "HIGH",                           # CWE-352: Cross-Site Request Forgery
+    "open-redirect": "HIGH",                  # CWE-601: Open Redirect
+    "sql-sqli": "HIGH",                       # SQL Injection variants
+    "nosql-injection": "HIGH",                # NoSQL Injection
+    "orm-injection": "HIGH",                  # ORM Injection
+    
+    # ========================================
+    # MEDIUM - Security Weaknesses & Configuration Issues
+    # ========================================
+    "weak-crypto": "MEDIUM",                  # CWE-327: Weak Cryptography
+    "weak-hash": "MEDIUM",                    # MD5, SHA1 usage
+    "insecure-random": "MEDIUM",              # CWE-338: Weak Random
+    "weak-cipher": "MEDIUM",                  # DES, RC4, etc.
+    "missing-encryption": "MEDIUM",           # Data transmitted without encryption
+    "http-without-https": "MEDIUM",           # CWE-319: Cleartext transmission
+    "insecure-cookie": "MEDIUM",              # Missing Secure/HttpOnly flags
+    "missing-csrf-token": "MEDIUM",           # CSRF protection missing
+    "xml-bomb": "MEDIUM",                     # CWE-776: XML Entity Expansion
+    "regex-dos": "MEDIUM",                    # CWE-1333: ReDoS
+    "buffer-overflow": "MEDIUM",              # CWE-120: Buffer Overflow
+    "integer-overflow": "MEDIUM",             # CWE-190: Integer Overflow
+    "use-after-free": "MEDIUM",               # CWE-416: Use After Free
+    "null-pointer-dereference": "MEDIUM",     # CWE-476: NULL Pointer Dereference
+    "race-condition": "MEDIUM",               # CWE-362: Race Condition
+    "memory-leak": "MEDIUM",                  # CWE-401: Memory Leak
+    "information-disclosure": "MEDIUM",       # CWE-200: Information Exposure
+    "sensitive-data-exposure": "MEDIUM",      # OWASP A02:2021
+    "mass-assignment": "MEDIUM",              # CWE-915: Mass Assignment
+    "parameter-tampering": "MEDIUM",          # Parameter manipulation
+    "http-parameter-pollution": "MEDIUM",     # HPP attacks
+    "cache-poisoning": "MEDIUM",              # Cache poisoning attacks
+    "prototype-pollution": "MEDIUM",          # JavaScript prototype pollution
+    "zip-slip": "MEDIUM",                     # CWE-22: Zip Slip vulnerability
+    
+    # ========================================
+    # LOW - Code Quality & Best Practices
+    # ========================================
+    "debug-code": "LOW",                      # Debug code in production
+    "todo-fixme": "LOW",                      # Incomplete implementations
+    "commented-code": "LOW",                  # Dead code
+    "unused-variable": "LOW",                 # Code quality
+    "missing-error-handling": "LOW",          # Poor error handling
+    "improper-exception-handling": "LOW",     # CWE-755: Exception handling
+    "missing-input-validation": "LOW",        # Input validation missing
+    "missing-output-encoding": "LOW",         # Output encoding missing
+    "missing-security-header": "LOW",         # Security headers missing
+    "verbose-error-messages": "LOW",          # Detailed error messages
+    "stack-trace-exposure": "LOW",            # Stack traces in production
+    "directory-listing": "LOW",               # Directory browsing enabled
+    "default-credentials": "LOW",             # Default passwords
+    "outdated-dependency": "LOW",             # Old library versions
+    "deprecated-function": "LOW",             # Deprecated API usage
+    "insecure-permissions": "LOW",            # File/directory permissions
+    "hardcoded-ip": "LOW",                    # Hardcoded IP addresses
+    "hardcoded-url": "LOW",                   # Hardcoded URLs
+    "console-log": "LOW",                     # console.log in production
+    "print-statement": "LOW",                 # print() in production
+    
+    # ========================================
+    # Additional OWASP Top 10 & CWE Categories
+    # ========================================
+    "broken-authentication": "HIGH",          # OWASP A07:2021
+    "security-misconfiguration": "MEDIUM",    # OWASP A05:2021
+    "vulnerable-components": "MEDIUM",        # OWASP A06:2021
+    "identification-failure": "MEDIUM",       # OWASP A07:2021
+    "data-integrity-failure": "HIGH",         # OWASP A08:2021
+    "logging-failure": "LOW",                 # OWASP A09:2021
+    "insufficient-logging": "LOW",            # Logging & monitoring
+    
+    # ========================================
+    # Framework & Technology Specific
+    # ========================================
+    # Django
+    "django-raw-sql": "HIGH",
+    "django-xss": "HIGH",
+    "django-csrf": "HIGH",
+    
+    # Flask
+    "flask-debug-mode": "MEDIUM",
+    "flask-xss": "HIGH",
+    "flask-sql-injection": "CRITICAL",
+    
+    # Express.js
+    "express-xss": "HIGH",
+    "express-sql-injection": "CRITICAL",
+    "express-open-redirect": "HIGH",
+    
+    # Spring
+    "spring-sqli": "CRITICAL",
+    "spring-xss": "HIGH",
+    "spring-xxe": "CRITICAL",
+    
+    # React
+    "react-dangerouslysetinnerhtml": "HIGH",
+    "react-xss": "HIGH",
+    
+    # Angular
+    "angular-xss": "HIGH",
+    "angular-bypasssecurity": "HIGH",
+    
+    # Laravel
+    "laravel-sql-injection": "CRITICAL",
+    "laravel-xss": "HIGH",
+    
+    # Ruby on Rails
+    "rails-sql-injection": "CRITICAL",
+    "rails-xss": "HIGH",
+    "rails-mass-assignment": "MEDIUM",
+    
+    # ========================================
+    # Cloud & Infrastructure
+    # ========================================
+    "aws-credentials": "HIGH",               # Exposed AWS keys
+    "azure-credentials": "HIGH",             # Exposed Azure keys
+    "gcp-credentials": "HIGH",               # Exposed GCP keys
+    "docker-privileged": "MEDIUM",           # Docker security
+    "kubernetes-secrets": "HIGH",            # K8s secrets exposure
+    "terraform-secrets": "HIGH",             # Infrastructure secrets
+    
+    # ========================================
+    # Mobile Security
+    # ========================================
+    "android-webview-js": "HIGH",            # Android WebView JS enabled
+    "android-ssl-pinning": "MEDIUM",         # Missing SSL pinning
+    "ios-insecure-storage": "MEDIUM",        # Insecure data storage
+    "mobile-insecure-communication": "HIGH", # Insecure mobile comm
+}
+
+
+# ============================================================
+# OUTPUT CONFIGURATION
+# ============================================================
+OUTPUT_DIR = "scan_results"  # Directory for scan results
+SAVE_DETAILED_REPORT = True  # Save detailed JSON report
+SAVE_SUMMARY_REPORT = True  # Save summary text report
+SAVE_HTML_REPORT = True  # Save HTML report
+
+
+# ============================================================
+# SCAN CONFIGURATION
+# ============================================================
+AUTO_FIX_SUGGESTIONS = True  # Generate fix suggestions via LLM
+INCLUDE_CODE_CONTEXT = True  # Include surrounding code in reports
+MAX_CONTEXT_LINES = 5  # Number of context lines before/after issue
+
+
+# ============================================================
+# GITHUB CONFIGURATION
+# ============================================================
+GITHUB_TOKEN = ""  # Optional: GitHub personal access token for private repos
+CLONE_DEPTH = 1  # Git clone depth (1 = shallow clone for faster scanning)
+
+
+# ============================================================
+# NOTIFICATION CONFIGURATION (Optional)
+# ============================================================
+ENABLE_NOTIFICATIONS = False
+SLACK_WEBHOOK_URL = ""  # Optional: Slack webhook for notifications
+EMAIL_RECIPIENTS = []  # Optional: List of email addresses for reports
+
+
+# ============================================================
+# ADVANCED SETTINGS
+# ============================================================
+PARALLEL_SCANS = True  # Run multiple file scans in parallel
+MAX_WORKERS = 4  # Number of parallel workers
+TIMEOUT_SECONDS = 300  # Timeout for scans (5 minutes)
+VERBOSE_LOGGING = True  # Enable detailed logging

@@ -30,7 +30,7 @@ http://localhost:5000
 ### **Step 2: Enter URL or Path**
 **For Azure DevOps:**
 ```
-https://dev.azure.com/MicrosoftIT/OneITVSO/_git/PCTrax
+https://dev.azure.com/yourrepo
 ```
 
 **For GitHub:**
